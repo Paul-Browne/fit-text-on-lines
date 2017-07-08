@@ -1,39 +1,58 @@
 /*! fit-text-on-lines.js | Paul Browne */
-(function(){
-  function debouncedResize(a,b) {  
-    return window.addEventListener("resize",function() {    
-      clearTimeout(b),      
-      b = setTimeout(a,150)
-    }),a
-  }  
-  function calc(element, increment){
-    var scrollHeight = element.scrollHeight;    
-    var fontSize = parseFloat(getComputedStyle(element).fontSize) + (increment || 0);    
-    var lineHeight = parseFloat(getComputedStyle(element).lineHeight);    
-    return {
-      ratio: scrollHeight/lineHeight,   
-      fontSize: fontSize + "px"      
-    };
-  }  
-  debouncedResize(function() {         
-    var element = document.querySelectorAll(".js-fit-text-on-lines");        
-    var i = element.length;    
-    while(i--) {               
-      element[i].setAttribute("style", "");              
-      var contentLines;              
-      if(getComputedStyle(element[i]).content){      
-        contentLines = getComputedStyle(element[i]).content.match(/\d+/g)[0];        
-      }                          
-      var lines = element[i].getAttribute("data-fit-text-on-lines") || contentLines || 1;               
-      var wasPerfect = false;                           
-      while(calc(element[i]).ratio <= lines &&! wasPerfect) {                
-        element[i].style.fontSize = calc(element[i], 1).fontSize;                    
-        wasPerfect = false;                    
-      }                          
-      while(calc(element[i]).ratio > lines) {                
-        element[i].style.fontSize = calc(element[i], -1).fontSize;                    
-        wasPerfect = true;            
-      }      
+(function() {
+    function debouncedResize(a, b) {
+        return window.addEventListener("resize", function() {
+            clearTimeout(b),
+            b = setTimeout(a, 150)
+        }), a
     }
-  })();
+
+    debouncedResize(function() {
+        var element = document.querySelectorAll(".js-fit-text-on-lines");
+        var i = element.length;
+        while (i--) {
+            element[i].setAttribute("style", "");
+            var lines = parseFloat(getComputedStyle(element[i]).minHeight) || 1;
+            var lineHeight = parseFloat(getComputedStyle(element[i]).lineHeight);
+            var linesUsed = Math.round( element[i].scrollHeight / lineHeight );
+            var fs = getComputedStyle(element[i]).fontSize;
+            var lh = lineHeight / parseFloat(fs);
+            var inc = Math.min((2 * Math.pow(2, 2 * (Math.abs(linesUsed - lines)))), parseFloat(fs) - 2 );
+            
+            element[i].style.fontSize = fs;
+
+            if(linesUsed > lines){
+                decreaseFontSize();
+            }else{
+                increaseFontSize();
+            }
+
+            function increaseFontSize(){
+                if(inc >= 0.5){
+                    while (linesUsed <= lines ) {
+                        //console.log([element[i].style.fontSize, linesUsed, lines]);
+                        element[i].style.fontSize = parseFloat(element[i].style.fontSize) + inc + "px";
+                        linesUsed = Math.round( element[i].scrollHeight / (lh * parseFloat(element[i].style.fontSize)) );
+                        inc -= 0.1;
+                    };
+                    inc = inc/2;
+                    decreaseFontSize();
+                }
+            }
+
+            function decreaseFontSize(){
+                if(inc >= 0.25){
+                    while (linesUsed > lines ) {
+                        //console.log([element[i].style.fontSize, linesUsed, lines]);
+                        element[i].style.fontSize = parseFloat(element[i].style.fontSize) - inc + "px";
+                        linesUsed = Math.round( element[i].scrollHeight / (lh * parseFloat(element[i].style.fontSize)) );
+                        inc -= 0.1;
+                    };
+                    inc = inc/2;
+                    increaseFontSize();
+                }
+            }
+        }
+    })();
 })();
+
