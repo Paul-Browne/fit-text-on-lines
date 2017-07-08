@@ -25,4 +25,4 @@ h1 {
 
 [DEMO](http://jsbin.com/gibodob)
 
-Tested in all major browsers, IE9, FF old, Chrome older, Safari 6
+Tested in all major browsers, IE9, FF old, Chrome older, Safari 6, Android 4.4, iOS 6
