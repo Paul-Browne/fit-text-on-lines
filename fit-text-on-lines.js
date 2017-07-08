@@ -8,7 +8,7 @@
     }
 
     debouncedResize(function() {
-        var element = document.querySelectorAll(".js-fit-text-on-lines");
+        var element = document.querySelectorAll(".js-fit-text-on-lines, js-ftol");
         var i = element.length;
         while (i--) {
             element[i].setAttribute("style", "");
