@@ -1,6 +1,6 @@
 # fit-text-on-lines.js
 
-The maximum font size a line of text can be, whilst still fitting onto a specified amount of lines.
+Adjusts a text's font size to the maximum it can be, whilst still fitting onto a specified amount of lines.
 
 0.5kb minified and gzipped.
 
@@ -10,10 +10,10 @@ Some text that you want to exactly fit on a certain amount of lines
 </h1>
 ```
 
-###### if "js-fit-text-on-lines" is too long for you, just use "js-ftol"
+###### if "js-fit-text-on-lines" is too long, just use "js-ftol"
 
 
-then use the `min-height` css attribute to specify how many lines you want the text to fit onto, 2px = 2 lines
+then use the `min-height` css attribute to specify how many lines you want the text to fit onto, 1px = 1 line, 2px = 2 lines, etc.
 
 ```css
 h1 {
