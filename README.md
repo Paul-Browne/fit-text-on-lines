@@ -23,6 +23,6 @@ h1 {
 
 ###### you must leave the "px"
 
-[DEMO](http://jsbin.com/gibodob)
+[DEMO](http://jsbin.com/yivahenaza)
 
 Tested in all major browsers, IE9, FF old, Chrome older, Safari 6, Android 4.4, iOS 6
