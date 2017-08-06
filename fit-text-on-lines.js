@@ -1,5 +1,6 @@
 /*! fit-text-on-lines.js | Paul Browne */
 (function() {
+  
     function debouncedResize(a, b) {
         return window.addEventListener("resize", function() {
             clearTimeout(b),
@@ -11,46 +12,47 @@
         var i = element.length;
         while (i--) {
             element[i].setAttribute("style", "");
+            element[i].style.fontSize = "256px";
             var lines = parseFloat(getComputedStyle(element[i]).minHeight) || 1;
             var lineHeight = parseFloat(getComputedStyle(element[i]).lineHeight);
             var linesUsed = Math.round(element[i].scrollHeight / lineHeight);
             var fs = getComputedStyle(element[i]).fontSize;
-            var lh = lineHeight / parseFloat(fs);
-            var inc = Math.min((2 * Math.pow(2, 2 * (Math.abs(linesUsed - lines)))), parseFloat(fs) - 2);
+            var lh = lineHeight / 256;
+            var inc = 128;
             var beforeFontSize;
-            element[i].style.fontSize = fs;
-            if (linesUsed > lines) {
-                decreaseFontSize();
-            } else {
-                increaseFontSize();
-            }
+                      
+            decreaseFontSize();
+          
             function increaseFontSize() {
                 if (inc >= 0.5) {
-                    while (linesUsed <= lines) {
+                    while (linesUsed <= lines && inc >= 0.5) {
                         beforeFontSize = element[i].style.fontSize;
                         element[i].style.fontSize = parseFloat(element[i].style.fontSize) + inc + "px";
                         linesUsed = Math.round(element[i].scrollHeight / (lh * parseFloat(element[i].style.fontSize)));
-                        if (beforeFontSize == element[i].style.fontSize) {
+                        if (beforeFontSize == element[i].style.fontSize && inc < 1) {                       
                             inc = 0.1;
                             lines = 0;
                         }
+                    inc = inc / 2;                      
                     }
-                    inc = inc / 2;
                     decreaseFontSize();
                 }
             }
             function decreaseFontSize() {
                 if (inc >= 0.25) {
-                    while (linesUsed > lines) {
+                    while (linesUsed > lines && inc >= 0.25) {              
                         beforeFontSize = element[i].style.fontSize;
                         element[i].style.fontSize = parseFloat(element[i].style.fontSize) - inc + "px";
-                        linesUsed = Math.round(element[i].scrollHeight / (lh * parseFloat(element[i].style.fontSize)));
-                        if (beforeFontSize == element[i].style.fontSize) {
+                        linesUsed = Math.round(element[i].scrollHeight / (lh * parseFloat(element[i].style.fontSize)));                      
+                        if (inc == 0.25) {
+                            element[i].style.fontSize = parseFloat(element[i].style.fontSize) - inc + "px";
+                        }                      
+                        if (beforeFontSize == element[i].style.fontSize && inc < 1) {
                             inc = 0.1;
                             linesUsed = 0;
                         }
-                    }
                     inc = inc / 2;
+                    }
                     increaseFontSize();
                 }
             }
