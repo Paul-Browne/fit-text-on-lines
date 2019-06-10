@@ -25,4 +25,4 @@
 		})
 		z.ftol();
 	}
-}(window)
+}(window);
