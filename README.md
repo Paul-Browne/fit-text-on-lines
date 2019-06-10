@@ -2,7 +2,7 @@
 
 Adjusts a text's font size to the maximum it can be, whilst still fitting onto a specified amount of lines.
 
-~500bytes minified.
+~500 bytes minified.
 
 ```html
 <h1 class="ftol hero">
@@ -18,6 +18,8 @@ then use the `min-height` css attribute to specify how many lines you want the t
 }
 ```
 ###### you must leave the "px"
+###### minimun 2 words for oneline, 3 words for 2 lines etc...
+###### line-height required, either on element, or inherited eg. from html or body
 
 [DEMO](https://paulbrowne.xyz/fit-text-on-lines)
 
